@@ -70,9 +70,9 @@ You are an intelligent programming assistant.
         else:
             # self.input_ids =[tokenizer(example["instruction"], return_tensors="pt")[0].squeeze() for example in list_data_dict] 
             print('base model:', args.base_model.lower())
-            for example in list_data_dict:
-                if len(example['prompt']) == 0:
-                    print(example)
+            # for example in list_data_dict:
+            #     if len(example['prompt']) == 0:
+            #         print(example)
             prompts =[example["prompt"] for example in list_data_dict] 
 
     elif 'sft-codeqwen' in args.base_model.lower():

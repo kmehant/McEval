@@ -124,7 +124,7 @@ def eval(args):
     score = {}
     
     # with tempfile.TemporaryDirectory() as temp_dir:
-    temp_dir = './tmp'
+    temp_dir = '/workspace/MMCodeEval/eval/tmp'
     prepare_tempdir_context(temp_dir)
     # orgin_dir = os.getcwd()
     os.chdir(temp_dir)
