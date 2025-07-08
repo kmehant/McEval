@@ -39,7 +39,7 @@ def load_data(args):
     filtered_filenames = []
     for file in filenames:
         for lang in langs:
-            if lang in file:
+            if f"{lang}.jsonl" in file:
                 filtered_filenames.append(file)
     print(filtered_filenames)
     filenames = filtered_filenames
