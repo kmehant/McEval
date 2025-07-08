@@ -1,5 +1,6 @@
 
-MODEL_DIR='Qwen/Qwen2.5-Coder-3B'
+# MODEL_DIR='Qwen/Qwen2.5-Coder-3B'
+# MODEL_DIR
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
 
 COMPLETE_DATA_PATH='completion/completion_data/merge'
@@ -8,8 +9,8 @@ python inference_vllm.py \
     --base_model $MODEL_DIR \
     --task 'completion'  \
     --outdir 'completion_result'\
-    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang\
-    --tp 2
+    --langs $langs\
+    --tp $tp
 
 
 COMPLETE_DATA_PATH='./completion/completion_data/light'
@@ -18,5 +19,5 @@ python inference_vllm.py \
     --base_model $MODEL_DIR \
     --task 'completion_light'  \
     --outdir 'completion_result'\
-    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang\
-    --tp 2
+    --langs $langs\
+    --tp $tp
