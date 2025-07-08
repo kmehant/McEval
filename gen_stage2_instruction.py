@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
         save_dir = os.path.join(output_dir, stage1_result_file.replace('.jsonl', ''))
         if not os.path.exists(save_dir):
-            os.mkdir(save_dir)
+            os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, stage1_result_file)    
         with open(save_path, 'w') as f:
             for item in items:
