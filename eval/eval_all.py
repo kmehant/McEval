@@ -107,16 +107,16 @@ def clean_cache():
 def eval(args):
     clean_cache()
     exclude_langs = ['sql']
+    os.makedirs(args.save_path, exist_ok=True)
     langs = [x.split('.')[0] for x in os.listdir(args.result_path) if x.endswith('.jsonl')]
     save_path = os.path.join(args.save_path, os.path.basename(args.result_path)+'.jsonl')
-    os.makedirs(save_path, exist_ok=True)
     detail_save_path = os.path.join(args.save_path, os.path.basename(args.result_path)+'_detail.jsonl')
     # print(save_path)
     if os.path.exists(save_path):
         finish_langs = [x.split('\t')[0].strip().lower() for x in open(save_path, 'r').readlines()]
     else:
         finish_langs = []
-  
+    
     langs = [lang for lang in langs if (lang.lower() not in exclude_langs+finish_langs)]
     random.shuffle(langs)
 
@@ -137,7 +137,7 @@ def eval(args):
         print(f'Lang: {lang}')
         print(score[lang])
 
-        with open(save_path, 'a') as f:
+        with open(save_path, 'a+') as f:
             f.write(lang+'\t'+json.dumps(score[lang])+'\n')
 
         # with open(detail_save_path, 'a') as f:
