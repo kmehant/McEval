@@ -32,6 +32,7 @@ python -m torch.distributed.launch --master_addr ${MASTER_ADDR} --master_port ${
     --fsdp "full_shard auto_wrap" \
     --fsdp_transformer_layer_cls_to_wrap 'Qwen2DecoderLayer' \
     --gradient_checkpointing True \
-    --tf32 True
+    --tf32 True\
+    --langs ${langs}
 
 

@@ -17,7 +17,7 @@ import os
 import copy
 import logging
 from dataclasses import dataclass, field
-from typing import Optional, Dict, Sequence
+from typing import Optional, Dict, Sequence, List
 import io
 import torch
 import transformers
@@ -62,6 +62,7 @@ class ModelArguments:
 @dataclass
 class DataArguments:
     data_path: str = field(default=None, metadata={"help": "Path to the training data."})
+    langs: List[str] = field(default=None, metadata={"help": "langs list"})
 
 
 
@@ -149,7 +150,7 @@ def preprocess(
 class SupervisedDataset(Dataset):
     """Dataset for supervised fine-tuning."""
 
-    def __init__(self, data_path: str, tokenizer: transformers.PreTrainedTokenizer):
+    def __init__(self, data_path: str, tokenizer: transformers.PreTrainedTokenizer, langs):
         super(SupervisedDataset, self).__init__()
         logging.warning("Loading data...")
         try:
@@ -160,7 +161,11 @@ class SupervisedDataset(Dataset):
             list_data_dict = [json.loads(line.strip()) for line in lines]
 
         sources = []
-
+        list_data_dict_filter = []
+        for d in list_data_dict:
+            if d["language"] in langs:
+                list_data_dict_filter.append(d)
+        list_data_dict = list_data_dict_filter
         for example in list_data_dict:
             sources.append(PROMPT_QWEN.format_map({'instruction': example['instruction']}))
       
@@ -212,7 +217,7 @@ class DataCollatorForSupervisedDataset(object):
 
 def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer, data_args) -> Dict:
     """Make dataset and collator for supervised fine-tuning."""
-    train_dataset = SupervisedDataset(tokenizer=tokenizer, data_path=data_args.data_path)
+    train_dataset = SupervisedDataset(tokenizer=tokenizer, data_path=data_args.data_path, langs=data_args.langs)
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     return dict(train_dataset=train_dataset, eval_dataset=None, data_collator=data_collator)
 
