@@ -10,7 +10,7 @@
 
 # SAVE_PATH='./ckpt/sft-codewen-1.5-7b'
 # /data/odm_ase/train
-python -m torch.distributed.launch --master_addr ${MASTER_ADDR} --master_port ${MASTER_PORT} --nproc_per_node=${nproc_per_node} --use_env train.py \
+torchrun --nnodes=1 --node_rank=0 --nproc_per_node=${nproc_per_node} --rdzv_id=101 --rdzv_endpoint=0.0.0.0:8888 train.py \
     --model_name_or_path $MODEL_PATH \
     --data_path $DATA_PATH \
     --bf16 True \
