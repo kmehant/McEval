@@ -107,7 +107,7 @@ def clean_cache():
 def eval(args):
     clean_cache()
     exclude_langs = ['sql']
-
+    os.makedirs(args.save_path, exist_ok=True)
     langs = [x.split('.')[0] for x in os.listdir(args.result_path) if x.endswith('.jsonl')]
     save_path = os.path.join(args.save_path, os.path.basename(args.result_path)+'.jsonl')
     detail_save_path = os.path.join(args.save_path, os.path.basename(args.result_path)+'_detail.jsonl')
