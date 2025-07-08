@@ -136,8 +136,10 @@ def eval(args):
         print('\n'*3)
         print(f'Lang: {lang}')
         print(score[lang])
-
-        with open(save_path, 'a+') as f:
+        mode = "a"
+        if not os.path.exists(save_path):
+            mode = "w"
+        with open(save_path, mode) as f:
             f.write(lang+'\t'+json.dumps(score[lang])+'\n')
 
         # with open(detail_save_path, 'a') as f:
