@@ -19,7 +19,6 @@ python -m torch.distributed.launch --master_addr ${MASTER_ADDR} --master_port ${
     --per_device_train_batch_size 1\
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 64 \
-    --evaluation_strategy "no" \
     --save_strategy "steps" \
     --model_max_length 5000 \
     --save_steps 10000 \
