@@ -11,6 +11,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # load_dir = './'
     save_dir = args.save_dir
+    os.makedirs(save_dir, exist_ok=True)
     path = args.split_file
     filename = os.path.basename(path)
 
