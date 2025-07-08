@@ -8,7 +8,8 @@ python inference_vllm.py \
     --base_model $MODEL_DIR \
     --task 'completion'  \
     --outdir 'completion_result'\
-    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang
+    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang\
+    --tp 2
 
 
 COMPLETE_DATA_PATH='./completion/completion_data/light'
@@ -17,4 +18,5 @@ python inference_vllm.py \
     --base_model $MODEL_DIR \
     --task 'completion_light'  \
     --outdir 'completion_result'\
-    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang
+    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang\
+    --tp 2
