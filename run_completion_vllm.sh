@@ -1,6 +1,6 @@
 
 MODEL_DIR='Qwen/Qwen2.5-Coder-3B'
-
+export VLLM_WORKER_MULTIPROC_METHOD=spawn
 
 COMPLETE_DATA_PATH='completion/completion_data/merge'
 python inference_vllm.py \

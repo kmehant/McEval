@@ -225,7 +225,7 @@ def run(args):
 
         raw_datas[idx]["raw_generation"] = [generated_text]
 
-
+    os.makedirs(args.outdir, exist_ok=True)
     save_path = os.path.join(args.outdir, args.base_model.split('/')[-1]+'_'+args.task+'.jsonl')
 
     with open(save_path, 'w') as f:
