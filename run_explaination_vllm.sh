@@ -13,7 +13,7 @@ python inference_vllm.py \
 
 python gen_stage2_instruction.py
 
-COMPLETE_DATA_PATH='./explain_stage2/explain_stage1'
+COMPLETE_DATA_PATH='./explain_stage2'
 python inference_vllm.py \
     --data_path $COMPLETE_DATA_PATH \
     --base_model $MODEL_DIR \
