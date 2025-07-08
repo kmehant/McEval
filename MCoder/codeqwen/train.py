@@ -163,7 +163,7 @@ class SupervisedDataset(Dataset):
         sources = []
         list_data_dict_filter = []
         for d in list_data_dict:
-            if d["language"] in langs:
+            if d["language"].lower() in langs:
                 list_data_dict_filter.append(d)
         list_data_dict = list_data_dict_filter
         for example in list_data_dict:
