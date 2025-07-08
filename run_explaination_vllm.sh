@@ -6,7 +6,8 @@ python inference_vllm.py \
     --data_path $COMPLETE_DATA_PATH \
     --base_model $MODEL_DIR \
     --task 'explain_stage1' \
-    --outdir 'explain_stage1'
+    --outdir 'explain_stage1'\
+    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang
 
 python gen_stage2_instruction.py
 
@@ -15,4 +16,5 @@ python inference_vllm.py \
     --data_path $COMPLETE_DATA_PATH \
     --base_model $MODEL_DIR \
     --task 'explain_stage2' \
-    --outdir 'explain_result' 
+    --outdir 'explain_result'\
+    --langs Java Markdown Python "Common Lisp" Swift HTML Shell Fortan Haskell Erlang

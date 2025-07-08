@@ -31,11 +31,18 @@ def code_llama_tokenizer_chat(
     return prompt
 
 
-def load_data( args):
+def load_data(args):
     data_path = args.data_path 
+    langs = args.langs
     print(data_path)
     filenames = [x for x in os.listdir(data_path) if x.endswith('.jsonl')]
-    print(filenames)
+    filtered_filenames = []
+    for file in filenames:
+        for lang in langs:
+            if lang in file:
+                filtered_filenames.append(file)
+    print(filtered_filenames)
+    filenames = filtered_filenames
     list_data_dict = []
     
     for filename in filenames:
@@ -206,12 +213,12 @@ def run(args):
     sampling_params = vllm.SamplingParams(temperature=0.0, top_p=0.95, max_tokens=args.max_length)
 
     print("model:", args.base_model)
-    model = vllm.LLM(model=args.base_model, tensor_parallel_size=8, trust_remote_code=True)
+    model = vllm.LLM(model=args.base_model, tensor_parallel_size=args.tp, trust_remote_code=True)
 
     outputs = model.generate(prompts, sampling_params)
 
     assert len(outputs) == len(raw_datas)
-    
+
     for idx, output in enumerate(outputs):
         prompt = output.prompt
         generated_text = output.outputs[0].text
@@ -237,6 +244,13 @@ if __name__ == '__main__':
     parser.add_argument("--outdir", default="outputs", type=str, help="config path")
     parser.add_argument("--do_sample", default=False, type=bool, help="config path")
     parser.add_argument("--max_length", type=int, default=1024, help="beam size")
-
+    parser.add_argument("--tp", type=int, default=8, help="tp size")
+    parser.add_argument(
+        "--langs",
+        nargs='+', 
+        type=str,  
+        default=[],
+        help="tasks"
+    )
     args = parser.parse_args()
     run(args)
