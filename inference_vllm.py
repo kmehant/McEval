@@ -225,6 +225,7 @@ def run(args):
 
         # Load tokenizer and model from Hugging Face
         print("model:", args.base_model)
+        batch_size = args.batch_size if hasattr(args, "batch_size") else 32  # Default to 8 if not specified
         tokenizer = AutoTokenizer.from_pretrained(args.base_model, trust_remote_code=True)
         model = AutoModelForCausalLM.from_pretrained(args.base_model, trust_remote_code=True).to("cuda")
         model.eval()
@@ -236,19 +237,20 @@ def run(args):
             max_new_tokens=args.max_length,
             do_sample=False,
         )
-
+        from torch.utils.data import DataLoader
+        dataloader = DataLoader(prompts, batch_size=batch_size)
         # Generate outputs
         outputs = []
         import tqdm
-        for prompt in tqdm.tqdm(prompts, total=len(prompts)):
-            inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+        for batch in tqdm.tqdm(dataloader, total=len(dataloader)):
+            inputs = tokenizer(batch, return_tensors="pt", padding=True, truncation=True).to(model.device)
             with torch.no_grad():
                 generated_ids = model.generate(
                     **inputs,
                     generation_config=generation_config
                 )
-            output_text = tokenizer.decode(generated_ids[0], skip_special_tokens=True)
-            outputs.append(output_text)
+            batch_outputs = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
+            outputs.extend(batch_outputs)
 
     assert len(outputs) == len(raw_datas)
 
