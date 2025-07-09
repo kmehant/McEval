@@ -280,6 +280,7 @@ if __name__ == '__main__':
     parser.add_argument("--do_sample", default=False, type=bool, help="config path")
     parser.add_argument("--max_length", type=int, default=1024, help="beam size")
     parser.add_argument("--tp", type=int, default=8, help="tp size")
+    parser.add_argument("--batch_size", type=int, default=128, help="batch size")
     parser.add_argument("--backend", type=str, default="vllm", help="vllm or transformers")
     parser.add_argument(
         "--langs",

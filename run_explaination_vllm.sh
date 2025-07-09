@@ -10,7 +10,8 @@ python inference_vllm.py \
     --outdir 'explain_stage1'\
     --langs $langs\
     --tp $tp\
-    --backend $backend
+    --backend $backend\
+    --batch_size $batch_size
 
 python gen_stage2_instruction.py
 
@@ -22,4 +23,5 @@ python inference_vllm.py \
     --outdir 'explain_result'\
     --langs $langs\
     --tp $tp\
-    --backend $backend
+    --backend $backend\
+    --batch_size $batch_size

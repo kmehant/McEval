@@ -10,4 +10,5 @@ python inference_vllm.py \
     --task 'generation'\
     --langs $langs\
     --tp $tp\
-    --backend $backend
+    --backend $backend\
+    --batch_size $batch_size

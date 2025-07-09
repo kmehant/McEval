@@ -11,7 +11,8 @@ python inference_vllm.py \
     --outdir 'completion_result'\
     --langs $langs\
     --tp $tp\
-    --backend $backend
+    --backend $backend\
+    --batch_size $batch_size
 
 
 COMPLETE_DATA_PATH='./completion/completion_data/light'
@@ -22,4 +23,5 @@ python inference_vllm.py \
     --outdir 'completion_result'\
     --langs $langs\
     --tp $tp\
-    --backend $backend
+    --backend $backend\
+    --batch_size $batch_size
