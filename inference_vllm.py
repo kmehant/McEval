@@ -213,7 +213,7 @@ def run(args):
     sampling_params = vllm.SamplingParams(temperature=0.0, top_p=0.95, max_tokens=args.max_length)
 
     print("model:", args.base_model)
-    model = vllm.LLM(model=args.base_model, tensor_parallel_size=args.tp, trust_remote_code=True)
+    model = vllm.LLM(model=args.base_model, tensor_parallel_size=args.tp, trust_remote_code=True, model_impl="transformers")
 
     outputs = model.generate(prompts, sampling_params)
 
