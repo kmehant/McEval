@@ -9,7 +9,8 @@ python inference_vllm.py \
     --task 'explain_stage1' \
     --outdir 'explain_stage1'\
     --langs $langs\
-    --tp $tp
+    --tp $tp\
+    --backend $backend
 
 python gen_stage2_instruction.py
 
@@ -20,4 +21,5 @@ python inference_vllm.py \
     --task 'explain_stage2' \
     --outdir 'explain_result'\
     --langs $langs\
-    --tp $tp
+    --tp $tp\
+    --backend $backend

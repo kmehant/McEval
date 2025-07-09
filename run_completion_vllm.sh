@@ -10,7 +10,8 @@ python inference_vllm.py \
     --task 'completion'  \
     --outdir 'completion_result'\
     --langs $langs\
-    --tp $tp
+    --tp $tp\
+    --backend $backend
 
 
 COMPLETE_DATA_PATH='./completion/completion_data/light'
@@ -20,4 +21,5 @@ python inference_vllm.py \
     --task 'completion_light'  \
     --outdir 'completion_result'\
     --langs $langs\
-    --tp $tp
+    --tp $tp\
+    --backend $backend

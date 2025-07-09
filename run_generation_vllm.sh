@@ -9,4 +9,5 @@ python inference_vllm.py \
     --base_model $MODEL_DIR \
     --task 'generation'\
     --langs $langs\
-    --tp $tp
+    --tp $tp\
+    --backend $backend
