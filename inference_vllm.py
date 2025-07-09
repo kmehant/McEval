@@ -208,14 +208,46 @@ Below is an instruction that describes a task. Write a response that appropriate
     assert len(prompts) == len(list_data_dict)
     return prompts, list_data_dict
 
+
+
 def run(args):
     prompts, raw_datas = load_data(args)
-    sampling_params = vllm.SamplingParams(temperature=0.0, top_p=0.95, max_tokens=args.max_length)
+    if args.backend == "vllm":
+        sampling_params = vllm.SamplingParams(temperature=0.0, top_p=0.95, max_tokens=args.max_length)
 
+        print("model:", args.base_model)
+        model = vllm.LLM(model=args.base_model, tensor_parallel_size=args.tp, trust_remote_code=True, model_impl="transformers")
+
+        outputs = model.generate(prompts, sampling_params)
+    else:
+    from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
+    import torch
+
+    # Load tokenizer and model from Hugging Face
     print("model:", args.base_model)
-    model = vllm.LLM(model=args.base_model, tensor_parallel_size=args.tp, trust_remote_code=True, model_impl="transformers")
+    tokenizer = AutoTokenizer.from_pretrained(args.base_model, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(args.base_model, trust_remote_code=True).to("cuda")
+    model.eval()
 
-    outputs = model.generate(prompts, sampling_params)
+    # Define generation parameters
+    generation_config = GenerationConfig(
+        temperature=0.0,
+        top_p=0.95,
+        max_new_tokens=args.max_length,
+        do_sample=True,
+    )
+
+    # Generate outputs
+    outputs = []
+    for prompt in prompts:
+        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+        with torch.no_grad():
+            generated_ids = model.generate(
+                **inputs,
+                generation_config=generation_config
+            )
+        output_text = tokenizer.decode(generated_ids[0], skip_special_tokens=True)
+        outputs.append(output_text)
 
     assert len(outputs) == len(raw_datas)
 
@@ -245,6 +277,7 @@ if __name__ == '__main__':
     parser.add_argument("--do_sample", default=False, type=bool, help="config path")
     parser.add_argument("--max_length", type=int, default=1024, help="beam size")
     parser.add_argument("--tp", type=int, default=8, help="tp size")
+    parser.add_argument("--backedn", type=str, default="vllm", help="vllm or transformers")
     parser.add_argument(
         "--langs",
         nargs='+', 
