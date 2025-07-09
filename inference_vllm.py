@@ -75,7 +75,7 @@ You are an intelligent programming assistant.
             #         print(example)
             prompts =[example["prompt"] for example in list_data_dict] 
 
-    elif 'sft-codeqwen' in args.base_model.lower() or 'codeqwen' in args.base_model.lower():
+    elif 'sft-codeqwen' in args.base_model.lower() or 'codeqwen' in args.base_model.lower() or 'granite' in args.base_model.lower() or 'llama' in args.base_model.lower():
         template ='''\ 
 <|im_start|>system
 You are an AI programming assistant,  you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
