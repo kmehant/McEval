@@ -231,15 +231,16 @@ def run(args):
 
         # Define generation parameters
         generation_config = GenerationConfig(
-            temperature=0.0,
-            top_p=0.95,
+            # temperature=0.0,
+            # top_p=0.95,
             max_new_tokens=args.max_length,
-            do_sample=True,
+            do_sample=False,
         )
 
         # Generate outputs
         outputs = []
-        for prompt in prompts:
+        import tqdm
+        for prompt in tqdm.tqdm(prompts, total=len(prompts)):
             inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
             with torch.no_grad():
                 generated_ids = model.generate(
